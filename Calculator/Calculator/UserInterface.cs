@@ -3,53 +3,64 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Speech.Synthesis;
 
 namespace Calculator
 {
     class UserInterface
     {
         MathsCalculator calculator = new MathsCalculator();
+        SpeechSynthesizer synth = new SpeechSynthesizer();
+
 
 
         public void Display()
         {
+            synth.SetOutputToDefaultAudioDevice();
             double number1 = GetNumber();
-            string operator1 = GetOperator();
+            string operatorSymbol = GetOperator();
             double number2 = GetNumber();
-            switch (operator1)
-            {
-                case "+":
-                    Console.WriteLine("= " + calculator.Add(number1, number2));
-                    break;
-                case "-":
-                    Console.WriteLine("= " + calculator.Subtract(number1, number2));
-                    break;
-                case "*":
-                    Console.WriteLine("= " + calculator.Multiply(number1, number2));
-                    break;
-                case "/":
-                    try
-                    {
-                        Console.WriteLine("= " + calculator.Divide(number1, number2));
-                    }
-                    catch (System.DivideByZeroException e)
-                    {
-                        Console.WriteLine("You Can't Divide By 0 MORON!!! " + e.Message);
-                    }
-                    break;
-                default:
-                    Console.WriteLine("Stop Hacking the Calculator");
-                    break;
-            }
+            Console.WriteLine(calculator.DoOperation(number1, number2, operatorSymbol));
+
+            //switch (operatorSymbol)
+            //{
+            //    case "+":
+            //        Console.WriteLine("= " + calculator.Add(number1, number2));
+            //        synth.Speak("= " + calculator.Add(number1, number2));
+            //        break;
+            //    case "-":
+            //        Console.WriteLine("= " + calculator.Subtract(number1, number2));
+            //        synth.Speak("= " + calculator.Subtract(number1, number2));
+            //        break;
+            //    case "*":
+            //        Console.WriteLine("= " + calculator.Multiply(number1, number2));
+            //        synth.Speak("= " + calculator.Multiply(number1, number2));
+            //        break;
+            //    case "/":
+            //        try
+            //        {
+            //            Console.WriteLine("= " + calculator.Divide(number1, number2));
+            //            synth.Speak("= " + calculator.Divide(number1, number2));
+            //        }
+            //        catch (System.DivideByZeroException e)
+            //        {
+            //            Console.WriteLine("You Can't Divide By 0 MORON!!! " + e.Message);
+            //        }
+            //        break;
+            //    default:
+            //        Console.WriteLine("Stop Hacking the Calculator");
+            //        break;
+            //}
         }
         private double GetNumber()
         {
+            synth.SetOutputToDefaultAudioDevice();
             double number;
             Console.WriteLine("Enter a number: ");
             try
             {
                 number = Convert.ToDouble(Console.ReadLine());
-                //Console.Beep();
+                synth.Speak(Convert.ToString(number));
                 return number;
             }
             catch(System.FormatException e)
@@ -65,21 +76,25 @@ namespace Calculator
         }
         private string GetOperator()
         {
-            string operator1;
+            string operatorSymbol;
             Console.WriteLine("Enter an operator: ");
-            operator1 = Console.ReadLine();
-            //Console.Beep();
-            switch (operator1)
+            operatorSymbol = Console.ReadLine();
+            switch (operatorSymbol)
             {
                 case "+":
-                    return operator1;
+                    synth.Speak(Convert.ToString(operatorSymbol));
+                    return operatorSymbol;
                 case "-":
-                    return operator1;
+                    synth.Speak(Convert.ToString(operatorSymbol));
+                    return operatorSymbol;
                 case "*":
-                    return operator1;
+                    synth.Speak(Convert.ToString(operatorSymbol));
+                    return operatorSymbol;
                 case "/":
-                    return operator1;
+                    synth.Speak(Convert.ToString(operatorSymbol));
+                    return operatorSymbol;
                 default:
+                    synth.Speak("That is not a valid operator.  please try again");
                     return GetOperator();
             }
 

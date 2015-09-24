@@ -8,21 +8,26 @@ namespace Calculator
 {
     public class MathsCalculator
     {
-        public double Add(double number1, double number2)
+        List<Operation> operations;
+        public MathsCalculator()
         {
-            return number1 + number2;
+            operations = new List<Operation>();
+            operations.Add(new Addition());
+            operations.Add(new Subtraction());
+            operations.Add(new Multiplication());
+            operations.Add(new Division());
         }
-        public double Subtract(double number1, double number2)
+        public double DoOperation(double number1, double number2, string operatorSymbol)
         {
-            return number1 - number2;
+            foreach (Operation operation in operations) 
+            {
+                if (operation.OperatorSymbol == operatorSymbol)
+                {
+                    return operation.DoOperation(number1, number2);
+                }
+            }
+            throw new System.InvalidOperationException();
         }
-        public double? Divide(double number1, double number2)
-        {
-            return number1 / number2;
-        }
-        public double Multiply(double number1, double number2)
-        {
-            return number1 * number2;
-        }
+
     }
-}
+} 
