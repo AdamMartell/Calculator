@@ -11,8 +11,10 @@ namespace Calculator
         static void Main(string[] args)
         {
             UserInterface test = new UserInterface();
-            test.Display();
-            Console.Read();
+            while (true)
+            {
+                test.Display();
+            }
         }
     }
 }
